@@ -1,0 +1,16 @@
+# Add named checkpoints here; relative paths are resolved against this file.
+# The default architecture matches lbks_planner.train.IKFeedForward.
+models: {}
+# models:
+#   baseline:
+#     path: /absolute/path/to/ik_model.pth
+#     format: state_dict
+#     hidden_sizes: [128, 128]
+#     activation: relu
+#     output_scale: 3.141592653589793
+#   wider:
+#     path: /absolute/path/to/wider.pth
+#     hidden_sizes: [256, 256, 128]
+#   scripted:
+#     path: /absolute/path/to/model.pt
+#     format: torchscript

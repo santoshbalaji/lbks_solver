@@ -4,8 +4,6 @@ import pytorch_kinematics as pk
 import rclpy
 from rclpy.node import Node
 
-from scipy.spatial.transform import Rotation as R
-
 import math
 
 import torch
@@ -32,12 +30,12 @@ class IKFeedForward(nn.Module):
 
 class Train(Node):
     def __init__(
-            self,
-            urdf_path : str,
-            dof : int,
-            batch_size : int,
-            epoch: int):
- 
+        self,
+        urdf_path : str,
+        dof : int,
+        batch_size : int,
+        epoch: int):
+
         super().__init__('train_node')
         with open(urdf_path) as f:
             urdf = f.read()
@@ -47,59 +45,55 @@ class Train(Node):
             urdf,
             end_link_name="tool0")
 
+        self.__dof = dof
         self.__batch_size = batch_size
         self.__epoch = epoch
-        self.__dof = dof
+        self.__device = "cuda"
 
         # move to GPU if available
-        self.__chain = chain.to(device="cuda", dtype=torch.float32)
+        self.__chain = chain.to(device=self.__device, dtype=torch.float32)
 
-        self.__model = IKFeedForward(dof).to("cuda")
+        self.__model = IKFeedForward(dof).to(self.__device)
 
         self.get_logger().info("trainer initialised")
 
 
-    def find_fk(self, q : torch.Tensor):
-        jp = torch.as_tensor(
+    def find_fk(self, q: torch.Tensor):
+        # can accept batch or single input (multiple joint positions / single joint position)
+        q = torch.as_tensor(
             q,
             dtype=self.__chain.dtype,
-            device=self.__chain.device).unsqueeze(0)
-
-        # compute FK
-        transform = self.__chain.forward_kinematics(jp)
-
-        # 4x4 transformation matrix
-        T = transform.get_matrix()[0]
-
-        position = T[:3, 3]
-        quaternion = R.from_matrix(T[:3, :3].detach().cpu().numpy()).as_quat()
-        return position, quaternion
+            device=self.__chain.device)
+        matrices = self.__chain.forward_kinematics(q).get_matrix()
+        positions = matrices[:, :3, 3]  # XYZ is the last column of each matrix.
+        return positions
 
 
     def train_ik(self):
         optimizer = torch.optim.Adam(self.__model.parameters(), lr=1e-3)
-        
+
+        # set the model in training mode
         self.__model.train()
         for epoch in range(self.__epoch):
-
             # generate random joint configurations
             train_outputs = (
                 torch.rand(
                     self.__batch_size,
                     self.__dof,
-                    device="cuda") * 2 - 1) * math.pi
+                    device=self.__chain.device,
+                    dtype=self.__chain.dtype) * 2 - 1) * math.pi
 
             # generate target XYZ using FK
             with torch.no_grad():
                 train_inputs = self.find_fk(train_outputs)
 
-            # predict joint angles
+            # predict batch joint angles (batch training input positions & batch joint positions)
             q_pred = self.__model(train_inputs)
 
             # compute FK of predicted joints
             xyz_pred = self.find_fk(q_pred)
 
-            # Cartesian position loss
+            # cartesian position loss
             loss = torch.mean(
                 torch.sum(
                     (xyz_pred - train_inputs) ** 2,
@@ -122,6 +116,25 @@ class Train(Node):
         self.get_logger().info("training completed")
 
 
+    def predict_ik(self, pose : torch.Tensor):
+        # set the model in evaluation mode
+        self.__model.eval()
+
+        pose = torch.tensor(
+            pose,
+            dtype=torch.float32,
+            device=self.__device).unsqueeze(0)
+
+        with torch.no_grad():
+            q_pred = self.__model(pose)
+            pose_actual = self.find_fk(q_pred)
+
+        error = torch.linalg.norm(
+            pose_actual - pose,
+            dim=1)
+
+        self.get_logger().info("prediction error: " + str(error))
+
 
 def main(args=None):
     rclpy.init(args=args)
@@ -132,8 +145,9 @@ def main(args=None):
             urdf_path="/home/santosh/purdue_ws/src/milestone_2/lbks_description/urdf/ur/ur.urdf",
             dof=6,
             batch_size=2000,
-            epoch=3000)
+            epoch=10000)
         train.train_ik()
+        train.predict_ik([0.3, 0.7, 0.4])
     finally:
         if train is not None:
             train.destroy_node()

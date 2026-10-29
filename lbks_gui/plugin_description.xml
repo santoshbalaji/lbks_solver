@@ -1,0 +1,8 @@
+<library path="lbks_control_panel">
+  <class name="lbks_gui/ControlPanel" type="lbks_gui::ControlPanel" base_class_type="rviz_common::Panel">
+    <description>Cartesian targets, joint preview, and interchangeable learned IK models.</description>
+  </class>
+  <class name="lbks_gui/NetworkPanel" type="lbks_gui::NetworkPanel" base_class_type="rviz_common::Panel">
+    <description>Real prediction activations, layer replay, and neuron contribution inspection.</description>
+  </class>
+</library>
