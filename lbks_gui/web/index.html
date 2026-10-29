@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LBKS · Robot studio</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {"imports":{"three":"./vendor/three/build/three.module.js","three/":"./vendor/three/"}}
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon">L</span><div><strong>LBKS</strong><span>Robot studio</span></div></div>
+    <span class="workspace">LOCAL WORKSPACE <span class="dot"></span></span>
+    <span id="connection" role="status">Connecting…</span>
+  </header>
+  <main>
+    <aside class="controls">
+      <div class="section-heading"><span class="eyebrow">01 / CONTROL</span><h1>Find a pose.</h1><p>Move the target. Explore the prediction.</p></div>
+      <section>
+        <div class="section-title"><h2>Cartesian target</h2><span class="unit">metres</span></div>
+        <div class="xyz-fields">
+          <label>X<input id="x" type="number" step="any" min="-5" max="5" value="0.4"></label>
+          <label>Y<input id="y" type="number" step="any" min="-5" max="5" value="0"></label>
+          <label>Z<input id="z" type="number" step="any" min="-5" max="5" value="0.4"></label>
+        </div>
+        <label class="check"><input id="live" type="checkbox" checked> Live prediction</label>
+        <button id="solve" class="primary full">Predict joint angles <span>↗</span></button>
+        <p class="hint">Or drag the target’s XYZ handles in the scene.</p>
+      </section>
+      <section>
+        <div class="section-title"><h2>Model</h2><span class="unit">IK backend</span></div>
+        <label class="sr-only" for="model">Prediction model</label>
+        <select id="model"><option value="numerical">Numerical IK · no network</option></select>
+        <div class="file-row"><label for="checkpoint" class="button file-button">↑ Load checkpoint</label><input id="checkpoint" type="file" accept=".pth,.pt" class="sr-only"></div>
+        <details><summary>Use a checkpoint path</summary><label class="sr-only" for="model-path">Local checkpoint path</label><input id="model-path" type="text" placeholder="/path/to/ik_model.pth"><button id="load-path" class="full">Use this checkpoint</button></details>
+        <p id="model-description" class="hint">Position-only IK. Tool orientation is unconstrained.</p>
+      </section>
+      <section>
+        <div class="section-title"><h2>Joint preview</h2><button id="home" class="text-button">Reset</button></div>
+        <div id="joints"></div>
+      </section>
+      <section>
+        <div class="section-title"><h2>Scene</h2><span class="unit">layers</span></div>
+        <label class="check"><input id="collision" type="checkbox"> URDF collision meshes</label>
+        <label class="check"><input id="obstacle" type="checkbox"> Example obstacle</label>
+        <p class="hint">Collision geometry is visualized. Collision detection is not connected.</p>
+      </section>
+      <p id="robot-info" class="hint"></p>
+    </aside>
+    <section class="viewport" aria-label="Interactive 3D robot arm">
+      <div id="viewer"></div>
+      <div class="viewport-top"><div><span class="eyebrow">02 / ROBOT VIEW</span><div id="viewer-status">Loading URDF…</div></div><button id="reset-camera">Reset view</button></div>
+      <div class="view-legend"><span><i class="target-dot"></i>Target</span><span><i class="actual-dot"></i>Achieved</span><span>Drag to orbit · scroll to zoom</span></div>
+      <div class="metrics">
+        <div><span>POSITION ERROR</span><strong id="error">—</strong></div>
+        <div><span>SOLVE TIME</span><strong id="latency">—</strong></div>
+        <div><span>ACHIEVED XYZ · m</span><strong id="actual">—</strong></div>
+      </div>
+      <div id="status" class="status" role="status" aria-live="polite">Ready to explore</div>
+    </section>
+    <section class="network">
+      <div class="network-heading"><div><span class="eyebrow">03 / INSIDE THE MODEL</span><h2>Follow the forward pass.</h2><p id="network-note">Load a trained checkpoint to inspect real activations.</p></div><span id="parameter-count" class="unit"></span></div>
+      <div class="replay-controls"><button id="replay" disabled>▶ Replay prediction</button><button id="previous-stage" disabled aria-label="Previous stage">←</button><label for="stage" class="sr-only">Forward-pass stage</label><input id="stage" type="range" min="0" max="0" value="0" disabled><button id="next-stage" disabled aria-label="Next stage">→</button><output id="stage-count">0 / 0</output></div>
+      <div class="network-body"><div id="network-graph"><div class="empty-network"><span>XYZ → network → joints → robot</span><p>Each prediction reveals the model’s actual layer values.</p></div></div><aside id="neuron-detail"><h3>Inspect a neuron</h3><p>Click an activation to see its value, weighted inputs, and bias.</p></aside></div>
+      <p class="network-legend"><i class="negative"></i> Negative <i class="positive"></i> Positive <i class="zero"></i> Zero <span>Brightness is scaled per layer. Replay is slowed down for inspection.</span></p>
+    </section>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

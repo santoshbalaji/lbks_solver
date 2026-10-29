@@ -1,1 +1,1 @@
-"""Desktop robot visualization and interchangeable IK backends."""
+"""Local web visualization of robot poses and IK network predictions."""

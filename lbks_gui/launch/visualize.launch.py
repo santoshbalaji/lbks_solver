@@ -1,44 +1,26 @@
-"""Launch the integrated RViz studio and its isolated inference backend."""
+"""Start the local web GUI using the training environment's Python."""
 
 import os
 from pathlib import Path
-import shlex
 import sys
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, EmitEvent, OpaqueFunction, RegisterEventHandler
-from launch.event_handlers import OnProcessExit
-from launch.events import Shutdown
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import Node
-
-from lbks_gui.robot import load_robot
 
 
 def start(context):
-    value = lambda name: LaunchConfiguration(name).perform(context)
-    urdf, root = load_robot(value('urdf_path'))
-    backend = Node(
-        package='lbks_gui', executable='ik_preview', output='screen',
-        prefix=shlex.quote(value('python_executable')),
-        parameters=[{'urdf_path': value('urdf_path'),
-                     'models_config': value('models_config'), 'tip_link': value('tip_link')}])
-    publisher = Node(
-        package='robot_state_publisher', executable='robot_state_publisher',
-        name='lbks_gui_robot_state', output='screen',
-        parameters=[{'robot_description': urdf}],
-        remappings=[('joint_states', '/lbks_gui/joint_states'),
-                    ('robot_description', '/lbks_gui/robot_description'),
-                    ('/tf', '/lbks_gui/tf'), ('/tf_static', '/lbks_gui/tf_static')])
-    rviz = Node(
-        package='rviz2', executable='rviz2', name='lbks_gui_view', output='screen',
-        arguments=['-d', value('rviz_config'), '-f', root],
-        remappings=[('/tf', '/lbks_gui/tf'), ('/tf_static', '/lbks_gui/tf_static')])
-    shutdown = RegisterEventHandler(OnProcessExit(
-        target_action=rviz,
-        on_exit=[EmitEvent(event=Shutdown(reason='Visualization window closed'))]))
-    return [shutdown, publisher, backend, rviz]
+    def value(name):
+        return LaunchConfiguration(name).perform(context)
+
+    command = [value('python_executable'), '-m', 'lbks_gui.server',
+               '--port', value('port'), '--urdf-path', value('urdf_path'),
+               '--models-config', value('models_config'), '--tip-link', value('tip_link'),
+               '--assets', get_package_share_directory('lbks_description')]
+    if value('open_browser').lower() == 'true':
+        command.append('--open-browser')
+    return [ExecuteProcess(cmd=command, output='screen')]
 
 
 def generate_launch_description():
@@ -47,11 +29,11 @@ def generate_launch_description():
     python = str(Path(os.environ['VIRTUAL_ENV']) / 'bin/python') if os.environ.get(
         'VIRTUAL_ENV') else sys.executable
     return LaunchDescription([
+        DeclareLaunchArgument('python_executable', default_value=python),
+        DeclareLaunchArgument('port', default_value='8080'),
+        DeclareLaunchArgument('open_browser', default_value='true'),
         DeclareLaunchArgument('urdf_path', default_value=str(description / 'urdf/ur/ur.urdf')),
-        DeclareLaunchArgument('tip_link', default_value='tool0'),
         DeclareLaunchArgument('models_config', default_value=str(share / 'config/models.yaml')),
-        DeclareLaunchArgument('rviz_config', default_value=str(share / 'config/studio.rviz')),
-        DeclareLaunchArgument('python_executable', default_value=python,
-                              description='Python with torch and pytorch_kinematics installed'),
+        DeclareLaunchArgument('tip_link', default_value='tool0'),
         OpaqueFunction(function=start),
     ])

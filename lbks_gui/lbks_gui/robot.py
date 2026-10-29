@@ -1,4 +1,4 @@
-"""Shared robot and model configuration, independent of Torch and Qt."""
+"""Read robot assets and model variants."""
 
 from pathlib import Path
 import xml.etree.ElementTree as ET

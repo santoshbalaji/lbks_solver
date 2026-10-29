@@ -1,0 +1,259 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="790" viewBox="0 0 1280 790" role="img" aria-labelledby="title desc">
+<title id="title">LBKS web GUI overview</title>
+<desc id="desc">Illustration of the web GUI: Cartesian and model controls on the left, the robot and target on the right, and network activations below. This is not a screenshot or a recorded prediction.</desc>
+<defs><linearGradient id="arm"><stop stop-color="#a6b5c2"/><stop offset=".5" stop-color="#f0f4f6"/><stop offset="1" stop-color="#738592"/></linearGradient></defs>
+<rect width="1280" height="790" rx="12" fill="#f4f6f6"/>
+<path d="M0 64H1280M294 64V756" stroke="#dfe7e4"/>
+<rect x="294" y="64" width="986" height="416" fill="#101b2a"/>
+<g font-family="Arial, Helvetica, sans-serif">
+
+<rect x="22" y="17" width="32" height="32" rx="8" fill="#218573" stroke="#218573"/>
+<text x="32" y="40" font-size="23" fill="white" font-weight="bold">L</text>
+<text x="67" y="39" font-size="18" fill="#263d35" font-weight="bold">LBKS</text>
+<text x="130" y="39" font-size="14" fill="#7c8c85" font-weight="normal">Robot studio</text>
+<text x="335" y="37" font-size="10" fill="#82948b" font-weight="normal">LOCAL WORKSPACE</text>
+<text x="1090" y="37" font-size="12" fill="#528275" font-weight="normal">Local web interface</text>
+<text x="24" y="96" font-size="10" fill="#81958c" font-weight="normal">01 / CONTROL</text>
+<text x="24" y="132" font-size="27" fill="#263d35" font-weight="bold">Find a pose.</text>
+<text x="24" y="155" font-size="11" fill="#82958b" font-weight="normal">Move the target. Explore the prediction.</text>
+<text x="24" y="193" font-size="14" fill="#263d35" font-weight="bold">Cartesian target</text>
+<text x="237" y="193" font-size="10" fill="#82958b" font-weight="normal">metres</text>
+<text x="24" y="217" font-size="11" fill="#82958b" font-weight="normal">X</text>
+<rect x="24" y="226" width="76" height="34" rx="6" fill="#fff" stroke="#dce5e0"/>
+<text x="34" y="249" font-size="13" fill="#263d35" font-weight="normal">0.400</text>
+<text x="110" y="217" font-size="11" fill="#82958b" font-weight="normal">Y</text>
+<rect x="110" y="226" width="76" height="34" rx="6" fill="#fff" stroke="#dce5e0"/>
+<text x="120" y="249" font-size="13" fill="#263d35" font-weight="normal">0.200</text>
+<text x="196" y="217" font-size="11" fill="#82958b" font-weight="normal">Z</text>
+<rect x="196" y="226" width="76" height="34" rx="6" fill="#fff" stroke="#dce5e0"/>
+<text x="206" y="249" font-size="13" fill="#263d35" font-weight="normal">0.400</text>
+<rect x="24" y="276" width="13" height="13" rx="3" fill="#218573" stroke="#218573"/>
+<text x="26" y="287" font-size="12" fill="white" font-weight="normal">✓</text>
+<text x="45" y="287" font-size="12" fill="#263d35" font-weight="normal">Live prediction</text>
+<rect x="24" y="306" width="246" height="36" rx="6" fill="#218573" stroke="#218573"/>
+<text x="37" y="330" font-size="13" fill="white" font-weight="normal">Predict joint angles</text>
+<text x="247" y="330" font-size="17" fill="white" font-weight="normal">↗</text>
+<text x="24" y="380" font-size="14" fill="#263d35" font-weight="bold">Model</text>
+<rect x="24" y="394" width="246" height="34" rx="6" fill="#fff" stroke="#dce5e0"/>
+<text x="35" y="416" font-size="12" fill="#263d35" font-weight="normal">ik_model.pth</text>
+<text x="250" y="416" font-size="15" fill="#263d35" font-weight="normal">⌄</text>
+<rect x="24" y="438" width="246" height="32" rx="6" fill="#fff" stroke="#dce5e0"/>
+<text x="77" y="459" font-size="12" fill="#263d35" font-weight="normal">↑ Load checkpoint</text>
+<text x="24" y="504" font-size="14" fill="#263d35" font-weight="bold">Joint preview</text>
+<text x="239" y="504" font-size="11" fill="#218573" font-weight="normal">Reset</text>
+<text x="24" y="530" font-size="10" fill="#7b8d83" font-weight="normal">shoulder pan</text>
+<path d="M139 526H264" stroke="#d2ded8" stroke-width="3"/><circle cx="163" cy="526" r="5" fill="#218573"/>
+<text x="24" y="557" font-size="10" fill="#7b8d83" font-weight="normal">shoulder lift</text>
+<path d="M139 553H264" stroke="#d2ded8" stroke-width="3"/><circle cx="174" cy="553" r="5" fill="#218573"/>
+<text x="24" y="584" font-size="10" fill="#7b8d83" font-weight="normal">elbow</text>
+<path d="M139 580H264" stroke="#d2ded8" stroke-width="3"/><circle cx="185" cy="580" r="5" fill="#218573"/>
+<text x="24" y="611" font-size="10" fill="#7b8d83" font-weight="normal">wrist 1</text>
+<path d="M139 607H264" stroke="#d2ded8" stroke-width="3"/><circle cx="196" cy="607" r="5" fill="#218573"/>
+<text x="24" y="638" font-size="10" fill="#7b8d83" font-weight="normal">wrist 2</text>
+<path d="M139 634H264" stroke="#d2ded8" stroke-width="3"/><circle cx="207" cy="634" r="5" fill="#218573"/>
+<text x="24" y="665" font-size="10" fill="#7b8d83" font-weight="normal">wrist 3</text>
+<path d="M139 661H264" stroke="#d2ded8" stroke-width="3"/><circle cx="218" cy="661" r="5" fill="#218573"/>
+<text x="24" y="714" font-size="10" fill="#7b8d83" font-weight="normal">□ Collision meshes    □ Example obstacle</text>
+<text x="24" y="739" font-size="10" fill="#7b8d83" font-weight="normal">Frame: world · Tip: tool0</text>
+<text x="319" y="96" font-size="10" fill="#819bae" font-weight="normal">02 / ROBOT VIEW</text>
+<text x="319" y="120" font-size="14" fill="#dce7ee" font-weight="normal">URDF robot arm</text>
+<text x="319" y="143" font-size="11" fill="#8fa7bc" font-weight="normal">Orbit · zoom · drag the XYZ target</text>
+<rect x="1162" y="85" width="94" height="30" rx="6" fill="#172637" stroke="#3f5264"/>
+<text x="1176" y="105" font-size="11" fill="#b8ccdc" font-weight="normal">Reset view</text>
+<path d="M780 205L340 465" stroke="#23374b"/>
+<path d="M780 205L430 465" stroke="#23374b"/>
+<path d="M780 205L520 465" stroke="#23374b"/>
+<path d="M780 205L610 465" stroke="#23374b"/>
+<path d="M780 205L700 465" stroke="#23374b"/>
+<path d="M780 205L790 465" stroke="#23374b"/>
+<path d="M780 205L880 465" stroke="#23374b"/>
+<path d="M780 205L970 465" stroke="#23374b"/>
+<path d="M780 205L1060 465" stroke="#23374b"/>
+<path d="M780 205L1150 465" stroke="#23374b"/>
+<path d="M780 205L1240 465" stroke="#23374b"/>
+<path d="M780 205L1330 465" stroke="#23374b"/>
+<path d="M780 205L1420 465" stroke="#23374b"/>
+<path d="M660.3 258H899.7" stroke="#23374b"/>
+<path d="M614.7 282H945.3" stroke="#23374b"/>
+<path d="M561.5 310H998.5" stroke="#23374b"/>
+<path d="M495.0 345H1065.0" stroke="#23374b"/>
+<path d="M413.3 388H1146.7" stroke="#23374b"/>
+<path d="M314.5 440H1245.5" stroke="#23374b"/>
+<ellipse cx="824" cy="374" rx="87" ry="18" fill="#0a1420" opacity=".6"/>
+<path d="M793 366L793 323L729 235L839 196L898 251" fill="none" stroke="#283544" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M793 355L793 323L729 235L839 196L898 251" fill="none" stroke="url(#arm)" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M765 368H821" stroke="#758997" stroke-width="16" stroke-linecap="round"/>
+
+<circle cx="793" cy="323" r="21" fill="#4b7f9c" stroke="#254b65" stroke-width="7"/><circle cx="793" cy="323" r="12" fill="#6b9bb5"/>
+<circle cx="729" cy="235" r="23" fill="#4b7f9c" stroke="#254b65" stroke-width="7"/><circle cx="729" cy="235" r="14" fill="#6b9bb5"/>
+<circle cx="839" cy="196" r="19" fill="#4b7f9c" stroke="#254b65" stroke-width="7"/><circle cx="839" cy="196" r="10" fill="#6b9bb5"/>
+<circle cx="898" cy="251" r="14" fill="#4b7f9c" stroke="#254b65" stroke-width="7"/><circle cx="898" cy="251" r="5" fill="#6b9bb5"/>
+<path d="M910 259L976 266" stroke="#d7b065" stroke-width="2" stroke-dasharray="5 4"/>
+<circle cx="910" cy="259" r="6" fill="#68e8ad"/>
+<circle cx="976" cy="266" r="7" fill="#68bef7"/>
+<path d="M976 266H1028M976 266V214M976 266L943 290" stroke="#68bef7" stroke-width="2"/>
+<path d="M1028 266L1019 261V271ZM976 214L971 223H981ZM943 290L954 288L948 280Z" fill="#68bef7"/>
+
+<text x="1035" y="269" font-size="11" fill="#9acbed" font-weight="normal">X</text>
+<text x="972" y="206" font-size="11" fill="#9acbed" font-weight="normal">Z</text>
+<text x="929" y="302" font-size="11" fill="#9acbed" font-weight="normal">Y</text>
+<rect x="318" y="390" width="443" height="57" rx="6" fill="#172637" stroke="#304459"/>
+<text x="333" y="409" font-size="9" fill="#92a7b9" font-weight="normal">POSITION ERROR</text>
+<text x="333" y="432" font-size="16" fill="#d4e2ec" font-weight="normal">— mm</text>
+<text x="465" y="409" font-size="9" fill="#92a7b9" font-weight="normal">SOLVE TIME</text>
+<text x="465" y="432" font-size="16" fill="#d4e2ec" font-weight="normal">— ms</text>
+<text x="577" y="409" font-size="9" fill="#92a7b9" font-weight="normal">ACHIEVED XYZ · m</text>
+<text x="577" y="432" font-size="16" fill="#d4e2ec" font-weight="normal">— / — / —</text>
+<text x="319" y="467" font-size="10" fill="#8fa7bc" font-weight="normal">Blue: target    Green: achieved    Amber: position error</text>
+<text x="319" y="509" font-size="10" fill="#82958b" font-weight="normal">03 / INSIDE THE MODEL</text>
+<text x="319" y="538" font-size="22" fill="#263d35" font-weight="bold">Follow the forward pass.</text>
+<text x="319" y="561" font-size="11" fill="#82958b" font-weight="normal">Real activations, weighted inputs, and joint predictions.</text>
+<rect x="319" y="575" width="157" height="28" rx="6" fill="#fff" stroke="#dce5e0"/>
+<text x="331" y="594" font-size="11" fill="#263d35" font-weight="normal">▶ Replay prediction</text>
+<path d="M500 589H1065" stroke="#d4dfd8" stroke-width="3"/><circle cx="680" cy="589" r="5" fill="#218573"/>
+<rect x="319" y="618" width="145" height="117" rx="6" fill="white" stroke="#dce5e0"/>
+<text x="329" y="638" font-size="11" fill="#263d35" font-weight="bold">XYZ input</text>
+<text x="329" y="655" font-size="9" fill="#91a197" font-weight="normal">3 values</text>
+<rect x="329" y="665" width="123" height="16" rx="2" fill="#5d98b5" stroke="#5d98b5"/>
+<text x="335" y="677" font-size="10" fill="white" font-weight="normal">X: 0.400</text>
+<rect x="329" y="685" width="123" height="16" rx="2" fill="#5d98b5" stroke="#5d98b5"/>
+<text x="335" y="697" font-size="10" fill="white" font-weight="normal">Y: 0.200</text>
+<rect x="329" y="705" width="123" height="16" rx="2" fill="#5d98b5" stroke="#5d98b5"/>
+<text x="335" y="717" font-size="10" fill="white" font-weight="normal">Z: 0.400</text>
+<rect x="476" y="618" width="145" height="117" rx="6" fill="white" stroke="#2c9a80"/>
+<text x="486" y="638" font-size="11" fill="#263d35" font-weight="bold">Linear 3 → 128</text>
+<text x="486" y="655" font-size="9" fill="#91a197" font-weight="normal">128 values</text>
+<rect x="486" y="667" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="502" y="667" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="518" y="667" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="534" y="667" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="550" y="667" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="566" y="667" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="582" y="667" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="598" y="667" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="486" y="679" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="502" y="679" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="518" y="679" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="534" y="679" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="550" y="679" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="566" y="679" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="582" y="679" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="598" y="679" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="486" y="691" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="502" y="691" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="518" y="691" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="534" y="691" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="550" y="691" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="566" y="691" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="582" y="691" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="598" y="691" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="486" y="703" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="502" y="703" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="518" y="703" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="534" y="703" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="550" y="703" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="566" y="703" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="582" y="703" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="598" y="703" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="486" y="715" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="502" y="715" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="518" y="715" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="534" y="715" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="550" y="715" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="566" y="715" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="582" y="715" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="598" y="715" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="633" y="618" width="145" height="117" rx="6" fill="white" stroke="#dce5e0"/>
+<text x="643" y="638" font-size="11" fill="#263d35" font-weight="bold">ReLU</text>
+<text x="643" y="655" font-size="9" fill="#91a197" font-weight="normal">128 values</text>
+<rect x="643" y="667" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="659" y="667" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="675" y="667" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="691" y="667" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="707" y="667" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="723" y="667" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="739" y="667" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="755" y="667" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="643" y="679" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="659" y="679" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="675" y="679" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="691" y="679" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="707" y="679" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="723" y="679" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="739" y="679" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="755" y="679" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="643" y="691" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="659" y="691" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="675" y="691" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="691" y="691" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="707" y="691" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="723" y="691" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="739" y="691" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="755" y="691" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="643" y="703" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="659" y="703" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="675" y="703" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="691" y="703" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="707" y="703" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="723" y="703" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="739" y="703" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="755" y="703" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="643" y="715" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="659" y="715" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="675" y="715" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="691" y="715" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="707" y="715" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="723" y="715" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="739" y="715" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="755" y="715" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="790" y="618" width="145" height="117" rx="6" fill="white" stroke="#dce5e0"/>
+<text x="800" y="638" font-size="11" fill="#263d35" font-weight="bold">Linear 128 → 128</text>
+<text x="800" y="655" font-size="9" fill="#91a197" font-weight="normal">128 values</text>
+<rect x="800" y="667" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="816" y="667" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="832" y="667" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="848" y="667" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="864" y="667" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="880" y="667" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="896" y="667" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="912" y="667" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="800" y="679" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="816" y="679" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="832" y="679" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="848" y="679" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="864" y="679" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="880" y="679" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="896" y="679" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="912" y="679" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="800" y="691" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="816" y="691" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="832" y="691" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="848" y="691" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="864" y="691" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="880" y="691" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="896" y="691" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="912" y="691" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="800" y="703" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="816" y="703" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="832" y="703" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="848" y="703" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="864" y="703" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="880" y="703" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="896" y="703" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="912" y="703" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="800" y="715" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="816" y="715" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="832" y="715" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="848" y="715" width="13" height="9" rx="1" fill="#adc2b5" stroke="none"/>
+<rect x="864" y="715" width="13" height="9" rx="1" fill="#6195b3" stroke="none"/>
+<rect x="880" y="715" width="13" height="9" rx="1" fill="#8ab4c8" stroke="none"/>
+<rect x="896" y="715" width="13" height="9" rx="1" fill="#dfb86e" stroke="none"/>
+<rect x="912" y="715" width="13" height="9" rx="1" fill="#bfd0c5" stroke="none"/>
+<rect x="957" y="618" width="299" height="117" rx="6" fill="#fff" stroke="#dce5e0"/>
+<text x="971" y="640" font-size="12" fill="#263d35" font-weight="bold">Inspect a neuron</text>
+<text x="971" y="662" font-size="11" fill="#81958b" font-weight="normal">Click an activation to see:</text>
+<text x="971" y="683" font-size="11" fill="#607b6c" font-weight="normal">• Value and weighted input contributions</text>
+<text x="971" y="703" font-size="11" fill="#607b6c" font-weight="normal">• Bias and activation function</text>
+<text x="971" y="723" font-size="11" fill="#607b6c" font-weight="normal">• Output scaling and joint limits</text>
+<text x="319" y="753" font-size="10" fill="#81958b" font-weight="normal">Blue: negative    Amber: positive    Gray: zero</text>
+</g><rect y="766" width="1280" height="24" fill="#e9eeeb"/><text x="640" y="782" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#6b8074">GUI layout illustration — not a screenshot or recorded prediction</text></svg>

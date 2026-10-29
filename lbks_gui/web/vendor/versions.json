@@ -1,0 +1,12 @@
+{
+  "three": {
+    "version": "0.186.1",
+    "source": "https://registry.npmjs.org/three/-/three-0.186.1.tgz",
+    "sha256": "8cd068708ea44f2c73c944b1cead2ba2f0d5c15c8fc194e5700f4e4f4a033fe7"
+  },
+  "urdf-loader": {
+    "version": "0.13.1",
+    "source": "https://registry.npmjs.org/urdf-loader/-/urdf-loader-0.13.1.tgz",
+    "sha256": "19909aad681a1dfb5e4820aaf8369f6ff0837ae91dbb664f47895fe2d64f0b83"
+  }
+}

@@ -1,133 +1,129 @@
-# LBKS GUI
+# LBKS web GUI
 
-A single RViz window with a custom **IK Studio** panel, URDF rendering, and a
-background Python inference process. No commands are sent to robot hardware.
-The preview uses the same URDF and `tool0` endpoint as the current trainer.
+A local browser app for exploring robot poses and learned inverse kinematics.
+Three.js renders the actual URDF meshes. A small Python HTTP server runs model
+predictions. There is no RViz, Qt, ROS messaging, frontend build, or web framework.
 
-## Build and run
+## Run
 
 ```bash
 cd ~/purdue_ws
 source /opt/ros/jazzy/setup.bash
-colcon build --packages-select lbks_description lbks_gui
+colcon build --packages-select lbks_gui
 source install/setup.bash
 ros2 launch lbks_gui visualize.launch.py \
   python_executable:=/home/santosh/purdue_ws/venv/bin/python
 ```
 
-The backend Python needs `torch`, `pytorch-kinematics`, and `PyYAML`; the existing
-training virtualenv can be used. The default interpreter is the activated
-virtualenv's Python, or the launch interpreter if none is activated. RViz and
-the compiled Qt panel use the ROS/system libraries, so Qt need not be installed
-in the training virtualenv. Build dependencies are `rviz_common`, `pluginlib`,
-`rclcpp`, `std_msgs`, `ament_cmake_python`, and Qt5 Widgets. ROS runtime also
-requires `robot_state_publisher`, `rviz2`, and `interactive_markers`.
+Open **http://127.0.0.1:8080**. The launch opens your default browser; pass
+`open_browser:=false` to disable this or `port:=8081` to change the port.
+Stop the server with Ctrl+C in its terminal.
 
-## Interaction
+You can also run directly from this repository without sourcing ROS:
 
-- Edit XYZ in metres and click **Solve target**, or enable live solving.
-- Drag the XYZ gizmo with RViz's **Interact** tool; releasing it solves the target.
-- **Publish Point** selects a target on rendered geometry.
-- Select numerical IK before a checkpoint is available; it uses bounded,
-  damped least squares with deterministic restarts.
-- Load a `.pth` state dictionary from the current trainer with **Load trained
-  checkpoint**. The default network is `3 → 128 → 128 → dof`, ReLU, final Tanh
-  scaled by pi. Checkpoints load on CPU even when trained on CUDA.
-- Joint sliders preview configurations directly. **Zero joints** resets them.
-- Blue marks the target, green the achieved tip position, and amber shows the
-  position error. Error in mm and solver latency are shown in the panel.
+```bash
+PYTHONPATH="$PWD/lbks_gui" ~/purdue_ws/venv/bin/python -m lbks_gui.server
+```
 
-The solver is **position-only**. It does not constrain orientation or perform
-collision checking. Approximate solutions are displayed with their residual;
-they are not declared unreachable or collision-free. Predictions outside URDF
-joint limits are clamped and reported. Neural inference is shown directly,
-without numerical refinement, so variants can be compared honestly.
+Python needs `torch`, `pytorch-kinematics`, and `PyYAML`, as in the training
+virtualenv. Browser libraries are bundled under `web/vendor`; no npm install,
+CDN connection, or internet access is required at runtime. Use a current browser
+with WebGL2 enabled.
+
+## Controls
+
+- Enter XYZ in metres and click **Predict joint angles**. Live prediction updates
+  after a short typing pause. Drag the blue XYZ handles to solve on release.
+- Orbit by dragging the scene and zoom with the scroll wheel. Reset view restores
+  the initial camera.
+- Select numerical IK to preview before loading a model. Load a `.pth` / `.pt`
+  state dictionary from the file picker, or enter its absolute path on this
+  machine. Uploaded files live in a temporary directory until the server stops.
+- Joint sliders preview the arm directly; Reset sets joint angles to zero.
+- The achieved XYZ, position error, and solve time appear over the robot view.
+- Toggle URDF collision meshes or an example obstacle. Collision detection is
+  not implemented. Position-only IK leaves tool orientation unconstrained.
+
+The browser discards stale responses when targets or joints change. Failed
+predictions preserve the displayed pose. Joint predictions are clamped to URDF
+limits and reported; approximate poses retain their measured position error.
 
 ## Model variants
 
-Copy `config/models.yaml` to a writable location and add named models, then pass
-`models_config:=/absolute/path/models.yaml`. Paths in YAML are relative to the
-YAML file. Restart the launch after changing the model list.
+Copy `config/models.yaml`, then launch with `models_config:=/path/models.yaml`:
 
 ```yaml
 models:
   baseline:
     path: /path/to/ik_model.pth
-    format: state_dict
     hidden_sizes: [128, 128]
     activation: relu
     output_scale: 3.141592653589793
   wider:
     path: /path/to/wider.pth
     hidden_sizes: [256, 256, 128]
-  custom_architecture:
+  custom:
     path: /path/to/scripted_model.pt
     format: torchscript
 ```
 
-State dictionaries must use `net.*` keys (as in `IKFeedForward`); a dictionary
-containing `state_dict` is also supported. MLP activations: relu, tanh, gelu.
-For other architectures, provide a trusted TorchScript module. Its interface
-must be float32 XYZ `(batch, 3)` in metres in the URDF root frame to joint angles
-`(batch, dof)` in radians, in the serial chain's joint order. Any normalization
-must be included in the exported model. Models must match the selected robot
-and tip. Dimension errors are reported in the panel without replacing the pose.
+Relative paths resolve against the YAML file. Reload the server after editing
+it. The file picker and path field use the current trainer's default architecture:
+`3 → 128 → 128 → dof`, ReLU, final Tanh scaled by pi. Other widths and activations
+(relu, tanh, gelu) belong in YAML. State dictionaries use `net.*` keys; a wrapping
+`state_dict` key is also supported. Only trusted TorchScript files should be used.
+Models accept float32 `(batch, 3)` XYZ in metres and return `(batch, dof)` radians
+in the serial chain's joint order. Include normalization in exported models.
 
 ## Network inspector
 
-The **Network inspector** dock opens below the robot view. Load a checkpoint and
-solve a target to see the real forward pass: XYZ input → linear layers → activation
-functions → output scaling → URDF limits → forward kinematics. New predictions
-update the view automatically. Numerical IK shows an explanation instead of a
-neural network.
+The lower panel shows actual recorded activations for each MLP layer, output
+scaling, joint limits, and achieved XYZ. Click a cell for its value; linear neurons
+also show their four strongest weighted inputs, remaining contribution sum, and
+bias. Blue is negative, amber positive, and gray zero. Brightness is normalized
+per layer. Layer statistics cover all neurons; at most 256 values are displayed.
 
-- Each colored cell is an actual activation. Blue is negative, amber positive,
-  and gray zero. Brightness is normalized per stage; compare exact values, not
-  colors, across different layers. Hover for values and click for details.
-- Click a linear-layer neuron to see its four strongest `weight × input`
-  contributions, the sum of remaining contributions, and its bias. These sum to
-  the recorded activation (up to floating-point rounding).
-- **Replay forward pass**, the arrow buttons, and the stage slider step through
-  a captured prediction. Replay slows down the explanation; it is not the actual
-  computation timing. New targets cancel replay and replace the old trace.
-- The final stages distinguish raw joint predictions from joint-limit clamping
-  and the achieved Cartesian pose. These postprocessing stages are not learned.
-- MLP variants expose all layers; custom TorchScript modules expose inputs and
-  outputs only. No synthetic hidden activations are shown.
+Replay and the stage slider step through one recorded prediction, not real-time
+execution. New inputs cancel replay. Solve time includes inspection overhead.
+TorchScript exposes inputs and outputs only; numerical IK has no network view.
 
-Up to 256 activations per stage are displayed (larger layers are explicitly
-marked); min/max/mean/zero counts cover the full layer. Inference always uses all
-neurons. The displayed solve latency includes activation inspection overhead.
-Temporary hooks are removed after each prediction, and traces are published once
-per update on the transient-local `/lbks_gui/network_trace` topic, rather than
-repeated with the 20 Hz robot state. Errors and manual joint edits clear the view.
-For an existing RViz layout, add **lbks_gui/NetworkPanel** using Panels → Add New
-Panel, or launch with the supplied `studio.rviz` configuration.
+## Code map
 
-## Collision extensions
+- `lbks_gui/server.py`: static files, checkpoint uploads, and a small JSON API.
+- `lbks_gui/engine.py`: model loading, numerical IK, and FK.
+- `lbks_gui/network_trace.py`: actual activation capture and neuron contributions.
+- `lbks_gui/robot.py`: URDF and model configuration.
+- `web/app.js`: controls and prediction requests.
+- `web/viewer.js`: URDF rendering, target dragging, and collision geometry.
+- `web/network.js`: activation cards and replay.
+- `web/index.html`, `web/style.css`: layout and appearance.
 
-Enable **Collision geometry** in RViz Displays to inspect the URDF collision
-meshes. **Show example obstacle** adds a translucent box, purely for preview.
-Future collision checking code can publish `visualization_msgs/MarkerArray` to
-`/lbks_gui/collision_markers` for contacts, highlighted links, distances, or
-obstacles. Use the URDF root frame or a frame in `/lbks_gui/tf`; clear obsolete
-markers with DELETE or DELETEALL. The display is already configured.
+The server binds only to `127.0.0.1`, accepts same-origin requests, and serves
+assets only from its web directory and the configured robot description folder.
+It does not publish robot commands or model data to ROS/DDS. Uploaded checkpoints
+are limited to 64 MiB; use a local path for larger files.
 
-Topics are isolated under `/lbks_gui`: `joint_states`, `robot_description`, `tf`,
-`tf_static`, `markers`, `state`, and `request`. The panel exchanges JSON inside
-`std_msgs/String`; requests support `solve` (target/model/path), `joints`, `home`,
-and `obstacle`. The latest request wins; completed stale solves are discarded.
-
-Other launch options: `urdf_path` (expanded URDF, not Xacro), `tip_link`, and
-`rviz_config`. Machine-specific lbks_description mesh URLs are normalized to
-`package://lbks_description/meshes/...` without editing the original URDF.
+API: `GET /api/config`, `GET /robot.urdf`, `POST /api/predict` with
+`{target, seed, model, path}`, and `POST /api/joints` with `{joints}`.
+A future collision checker can feed root-frame boxes to
+`RobotView.setObstacles([{position: [x,y,z], size: [sx,sy,sz], color}])`.
+The current example uses this same rendering method.
 
 ## Tests
 
-From this repository, with the training environment available:
-
 ```bash
-source /opt/ros/jazzy/setup.bash
-PYTHONPATH="$PWD/lbks_gui:$PYTHONPATH" ~/purdue_ws/venv/bin/python \
+PYTHONPATH="$PWD/lbks_gui" ~/purdue_ws/venv/bin/python \
   -m unittest discover -s lbks_gui/test -v
 ```
+
+ROS launch is only a convenience. Direct server execution, API tests, and the
+browser application do not require a running ROS graph.
+
+If Node.js is available, the optional frontend regression test checks controls,
+stale-response handling, neuron inspection, and replay using a small test DOM:
+
+```bash
+node --experimental-vm-modules lbks_gui/test/test_frontend.mjs
+```
+
+This test does not verify WebGL rendering or replace a visual browser check.
